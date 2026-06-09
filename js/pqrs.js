@@ -1,28 +1,53 @@
+// 🔗 IMPORTACIONES DE TU CARPETA JS/FIREBASE
 import { db } from "./firebase/firestore.js";
-import { storage } from "./firebase/storage.js"; // Importamos el nuevo storage
+import { storage } from "./firebase/store.js"; // Si tu archivo se llama storaje.js cámbialo aquí a ./firebase/storaje.js
 import { collection, addDoc } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-storage.js";
 
-const IMGBB_API_KEY = "AQUÍ_PEGAS_LA_API_KEY_DE_LA_JAC"; 
+const IMGBB_API_KEY = "7ca695ddde491f82c8ce1d020d47feb1"; 
 
+// Arreglo maestro en memoria que acumula los archivos reales de forma dinámica
 let listaArchivosTemporales = [];
 
 const inputFile = document.getElementById("evidencias");
 const contenedorVistaPrevia = document.getElementById("vistaPreviaArchivos");
-const pqrsForm = document.getElementById("pqrsForm");
+const pqrsForm = document.getElementById("pqrs-form"); 
 
 if (inputFile) {
   inputFile.addEventListener("change", (e) => {
     const archivosSeleccionados = Array.from(e.target.files);
     
-    archivosSeleccionados.forEach(archivo => {
-      const yaExiste = listaArchivosTemporales.some(f => f.name === archivo.name && f.size === archivo.size);
-      if (!yaExiste) {
-        listaArchivosTemporales.push(archivo);
-      }
-    });
+    // Calculamos los espacios disponibles del tope estricto de 3
+    const espaciosDisponibles = 3 - listaArchivosTemporales.length;
 
+    if (archivosSeleccionados.length > espaciosDisponibles) {
+      alert("⚠️ Solo se permiten un máximo de 3 archivos de evidencia por solicitud.");
+      
+      // Tomamos exclusivamente los archivos que caben en la ranura libre
+      const archivosPermitidos = archivosSeleccionados.slice(0, espaciosDisponibles);
+      
+      archivosPermitidos.forEach(archivo => {
+        const yaExiste = listaArchivosTemporales.some(f => f.name === archivo.name && f.size === archivo.size);
+        if (!yaExiste) {
+          listaArchivosTemporales.push(archivo);
+        }
+      });
+    } else {
+      // Si la cantidad cargada cabe perfectamente sin sobrepasar los 3 cupos
+      archivosSeleccionados.forEach(archivo => {
+        const yaExiste = listaArchivosTemporales.some(f => f.name === archivo.name && f.size === archivo.size);
+        if (!yaExiste) {
+          listaArchivosTemporales.push(archivo);
+        }
+      });
+    }
+
+    // CONTROL: Vaciamos el input nativo del navegador inmediatamente.
+    // Esto borra los molestos textos por defecto ("4 archivos") de la barra gris,
+    // previniendo la sobreescritura nativa y permitiendo clics sucesivos.
     inputFile.value = "";
+    
+    // Ejecutamos la actualización de la lista en pantalla
     actualizarVistaPrevia();
   });
 }
@@ -31,28 +56,31 @@ function actualizarVistaPrevia() {
   if (!contenedorVistaPrevia) return;
   contenedorVistaPrevia.innerHTML = "";
 
+  // Si nuestro array de memoria está en cero, restauramos el texto plano inicial
   if (listaArchivosTemporales.length === 0) {
     contenedorVistaPrevia.innerHTML = `<p class="text-muted small m-0" style="color: #666; font-style: italic;">Ningún archivo seleccionado aún.</p>`;
     return;
   }
 
+  // Iteramos sobre nuestro arreglo limpio para construir las filas interactivas
   listaArchivosTemporales.forEach((archivo, indice) => {
-    // Detectar tipo para poner un emoji descriptivo
     let icono = "📄"; 
     if (archivo.type.startsWith("image/")) icono = "🖼️";
-    if (archivo.name.endsWith(".pdf")) icono = "📕";
-    if (archivo.name.endsWith(".doc") || archivo.name.endsWith(".docx")) icono = "📘";
+    if (archivo.name.toLowerCase().endsWith(".pdf")) icono = "📕";
+    if (archivo.name.toLowerCase().endsWith(".doc") || archivo.name.toLowerCase().endsWith(".docx")) icono = "📘";
 
     const item = document.createElement("div");
-    item.className = "d-flex align-items-center justify-content-between p-2 mb-2 bg-light border rounded small";
-    item.style.cssText = "background: #f8f9fa; border: 1px solid #dee2e6; padding: 8px; border-radius: 4px; display: flex; align-items: center; justify-content: space-between; font-size: 0.85rem; margin-bottom: 5px;";
+    
+    // Inyección de estilos directos inline para garantizar visualización en cualquier navegador
+    item.style.cssText = "background: #f8f9fa; border: 1px solid #dee2e6; padding: 10px 14px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between; font-size: 0.85rem; margin-bottom: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); width: 100%; box-sizing: border-box;";
+    
     item.innerHTML = `
-      <div style="display: flex; align-items: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-        <span style="margin-right: 8px;">${icono}</span>
-        <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${archivo.name}">${archivo.name}</span>
-        <span style="color: #6c757d; margin-left: 8px; font-size: 0.75rem;">(${(archivo.size / 1024).toFixed(1)} KB)</span>
+      <div style="display: flex; align-items: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 80%;">
+        <span style="margin-right: 10px; font-size: 1.2rem; flex-shrink: 0;">${icono}</span>
+        <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; color: #333;" title="${archivo.name}">${archivo.name}</span>
+        <span style="color: #6c757d; margin-left: 8px; font-size: 0.75rem; flex-shrink: 0;">(${(archivo.size / 1024).toFixed(1)} KB)</span>
       </div>
-      <button type="button" style="background: none; border: none; color: #dc3545; font-weight: bold; cursor: pointer; padding: 0 5px;" onclick="window.eliminarArchivoTemporal(${indice})">
+      <button type="button" class="btn-borrar-evidencia" data-index="${indice}" style="background: #dc3545; border: none; color: white; font-weight: bold; cursor: pointer; padding: 6px 12px; font-size: 0.85rem; border-radius: 4px; line-height: 1; display: flex; align-items: center; justify-content: center; min-width: 30px; height: 28px;">
         ✕
       </button>
     `;
@@ -60,11 +88,23 @@ function actualizarVistaPrevia() {
   });
 }
 
-window.eliminarArchivoTemporal = (indiceAEliminar) => {
-  listaArchivosTemporales.splice(indiceAEliminar, 1);
-  actualizarVistaPrevia();
-};
+// DELEGACIÓN DE EVENTOS PARA EL BORRADO INDIVIDUAL (Funciona al 100% en módulos)
+if (contenedorVistaPrevia) {
+  contenedorVistaPrevia.addEventListener("click", (e) => {
+    const boton = e.target.closest(".btn-borrar-evidencia");
+    if (boton) {
+      const indiceAEliminar = parseInt(boton.getAttribute("data-index"), 10);
+      
+      // Removemos el archivo exacto de la lista en memoria
+      listaArchivosTemporales.splice(indiceAEliminar, 1);
+      
+      // Redibujamos la interfaz liberando el cupo correspondiente
+      actualizarVistaPrevia();
+    }
+  });
+}
 
+// ACCIÓN DE ENVÍO Y ALMACENAMIENTO MULTI-DESTINO
 if (pqrsForm) {
   pqrsForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -78,11 +118,9 @@ if (pqrsForm) {
 
       const evidenciasUrls = [];
 
-      // Procesar la lista de archivos mixta (Imágenes y Documentos)
       for (const archivo of listaArchivosTemporales) {
-        
         if (archivo.type.startsWith("image/")) {
-          // RUTA A: Es una imagen -> Va para ImgBB
+          // Ruta de Carga A: Fotos van para ImgBB
           const formData = new FormData();
           formData.append("image", archivo);
 
@@ -100,14 +138,11 @@ if (pqrsForm) {
             });
           }
         } else {
-          // RUTA B: Es un documento (PDF/Word) -> Va para Firebase Storage
-          // Creamos una ruta única usando la fecha para evitar que se sobrescriban archivos con el mismo nombre
+          // Ruta de Carga B: Documentos (PDF, Word) van para Firebase Storage
           const nombreUnico = `${Date.now()}_${archivo.name}`;
           const storageRef = ref(storage, `pqrsf_documentos/${nombreUnico}`);
           
-          // Subir el archivo en bytes
-          await uploadBytes(storageRef, archivo);
-          // Obtener la URL de descarga pública de Firebase
+          await uploadBytes(storageRef, archivo); // Arreglado: pasamos 'archivo' como blob binario
           const urlDescarga = await getDownloadURL(storageRef);
 
           evidenciasUrls.push({
@@ -118,16 +153,16 @@ if (pqrsForm) {
         }
       }
 
-      // Guardar en Firestore con las URLs correctas de ambas fuentes
+      // Consolidación y subida final estructurada a Cloud Firestore
       await addDoc(collection(db, "pqrsf"), {
         nombre: document.getElementById("nombre").value.trim(),
-        tipoDocumento: document.getElementById("tipoDocumento").value,
+        tipoDocumento: document.getElementById("tipo-documento").value, 
         documento: document.getElementById("documento").value.trim(),
-        tipoPersona: document.getElementById("tipoPersona").value,
+        tipoPersona: document.getElementById("tipo-persona").value, 
         correo: document.getElementById("correo").value.trim(),
         direccion: document.getElementById("direccion").value.trim() || "No aplica",
-        direccionHecho: document.getElementById("direccionHecho").value.trim() || "No aplica",
-        tipo: document.getElementById("tipoPqrs").value,
+        direccionHecho: document.getElementById("direccion-hecho").value.trim() || "No aplica", 
+        tipo: document.getElementById("tipo").value, 
         descripcion: document.getElementById("descripcion").value.trim(),
         estado: "Pendiente",
         fecha: new Date().toISOString(),
@@ -135,12 +170,14 @@ if (pqrsForm) {
       });
 
       alert("¡Su PQRSF ha sido enviada con éxito a la JAC!");
+      
+      // Reseteo absoluto de la app
       pqrsForm.reset();
       listaArchivosTemporales = [];
       actualizarVistaPrevia();
 
     } catch (error) {
-      console.error("Error al procesar la PQRSF:", error);
+      console.error("Error crítico al procesar la PQRSF:", error);
       alert("Hubo un error al enviar la solicitud. Por favor intente de nuevo.");
     } finally {
       submitBtn.disabled = false;
