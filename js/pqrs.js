@@ -1,8 +1,6 @@
-// 🔗 IMPORTACIONES DE TU CARPETA JS/FIREBASE
+// 🔗 IMPORTACIONES ÚNICAS DE CLOUD FIRESTORE
 import { db } from "./firebase/firestore.js";
-import { storage } from "./firebase/store.js"; // Si tu archivo se llama storaje.js cámbialo aquí a ./firebase/storaje.js
 import { collection, addDoc } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
-import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-storage.js";
 
 const IMGBB_API_KEY = "7ca695ddde491f82c8ce1d020d47feb1"; 
 
@@ -23,9 +21,7 @@ if (inputFile) {
     if (archivosSeleccionados.length > espaciosDisponibles) {
       alert("⚠️ Solo se permiten un máximo de 3 archivos de evidencia por solicitud.");
       
-      // Tomamos exclusivamente los archivos que caben en la ranura libre
       const archivosPermitidos = archivosSeleccionados.slice(0, espaciosDisponibles);
-      
       archivosPermitidos.forEach(archivo => {
         const yaExiste = listaArchivosTemporales.some(f => f.name === archivo.name && f.size === archivo.size);
         if (!yaExiste) {
@@ -33,7 +29,6 @@ if (inputFile) {
         }
       });
     } else {
-      // Si la cantidad cargada cabe perfectamente sin sobrepasar los 3 cupos
       archivosSeleccionados.forEach(archivo => {
         const yaExiste = listaArchivosTemporales.some(f => f.name === archivo.name && f.size === archivo.size);
         if (!yaExiste) {
@@ -42,12 +37,10 @@ if (inputFile) {
       });
     }
 
-    // CONTROL: Vaciamos el input nativo del navegador inmediatamente.
-    // Esto borra los molestos textos por defecto ("4 archivos") de la barra gris,
-    // previniendo la sobreescritura nativa y permitiendo clics sucesivos.
+    // CONTROL: Vaciamos el input nativo del navegador inmediatamente para evitar repeticiones.
     inputFile.value = "";
     
-    // Ejecutamos la actualización de la lista en pantalla
+    // Actualizamos la interfaz
     actualizarVistaPrevia();
   });
 }
@@ -56,13 +49,11 @@ function actualizarVistaPrevia() {
   if (!contenedorVistaPrevia) return;
   contenedorVistaPrevia.innerHTML = "";
 
-  // Si nuestro array de memoria está en cero, restauramos el texto plano inicial
   if (listaArchivosTemporales.length === 0) {
     contenedorVistaPrevia.innerHTML = `<p class="text-muted small m-0" style="color: #666; font-style: italic;">Ningún archivo seleccionado aún.</p>`;
     return;
   }
 
-  // Iteramos sobre nuestro arreglo limpio para construir las filas interactivas
   listaArchivosTemporales.forEach((archivo, indice) => {
     let icono = "📄"; 
     if (archivo.type.startsWith("image/")) icono = "🖼️";
@@ -70,8 +61,6 @@ function actualizarVistaPrevia() {
     if (archivo.name.toLowerCase().endsWith(".doc") || archivo.name.toLowerCase().endsWith(".docx")) icono = "📘";
 
     const item = document.createElement("div");
-    
-    // Inyección de estilos directos inline para garantizar visualización en cualquier navegador
     item.style.cssText = "background: #f8f9fa; border: 1px solid #dee2e6; padding: 10px 14px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between; font-size: 0.85rem; margin-bottom: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); width: 100%; box-sizing: border-box;";
     
     item.innerHTML = `
@@ -88,23 +77,27 @@ function actualizarVistaPrevia() {
   });
 }
 
-// DELEGACIÓN DE EVENTOS PARA EL BORRADO INDIVIDUAL (Funciona al 100% en módulos)
+// DELEGACIÓN DE EVENTOS PARA EL BORRADO INDIVIDUAL
 if (contenedorVistaPrevia) {
   contenedorVistaPrevia.addEventListener("click", (e) => {
     const boton = e.target.closest(".btn-borrar-evidencia");
     if (boton) {
       const indiceAEliminar = parseInt(boton.getAttribute("data-index"), 10);
-      
-      // Removemos el archivo exacto de la lista en memoria
       listaArchivosTemporales.splice(indiceAEliminar, 1);
-      
-      // Redibujamos la interfaz liberando el cupo correspondiente
       actualizarVistaPrevia();
     }
   });
 }
 
-// ACCIÓN DE ENVÍO Y ALMACENAMIENTO MULTI-DESTINO
+// 🛠️ FUNCIÓN AUXILIAR PARA CONVERTIR DOCUMENTOS A BASE64 (Mete el archivo en Firestore gratis)
+const transformarABase64 = (archivo) => new Promise((resolve, reject) => {
+  const lector = new FileReader();
+  lector.readAsDataURL(archivo);
+  lector.onload = () => resolve(lector.result);
+  lector.onerror = (error) => reject(error);
+});
+
+// ACCIÓN DE ENVÍO Y ALMACENAMIENTO (IMGBB + BASE64 FIRESTORE)
 if (pqrsForm) {
   pqrsForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -120,7 +113,7 @@ if (pqrsForm) {
 
       for (const archivo of listaArchivosTemporales) {
         if (archivo.type.startsWith("image/")) {
-          // Ruta de Carga A: Fotos van para ImgBB
+          // Si es foto, va para ImgBB de una
           const formData = new FormData();
           formData.append("image", archivo);
 
@@ -128,6 +121,10 @@ if (pqrsForm) {
             method: "POST",
             body: formData
           });
+
+          if (!respuesta.ok) {
+            throw new Error(`Error en ImgBB (${respuesta.status})`);
+          }
 
           const resultadoJson = await respuesta.json();
           if (resultadoJson.success) {
@@ -138,32 +135,38 @@ if (pqrsForm) {
             });
           }
         } else {
-          // Ruta de Carga B: Documentos (PDF, Word) van para Firebase Storage
-          const nombreUnico = `${Date.now()}_${archivo.name}`;
-          const storageRef = ref(storage, `pqrsf_documentos/${nombreUnico}`);
-          
-          await uploadBytes(storageRef, archivo); // Arreglado: pasamos 'archivo' como blob binario
-          const urlDescarga = await getDownloadURL(storageRef);
-
+          // Si es PDF o Word, se convierte a texto Base64 y se guarda directo en Firestore sin pagar nada
+          const stringBase64 = await transformarABase64(archivo);
           evidenciasUrls.push({
             nombre: archivo.name,
-            tipo: "documento",
-            url: urlDescarga
+            tipo: "documento_base64",
+            url: stringBase64 // El texto largo que representa tu PDF
           });
         }
       }
 
-      // Consolidación y subida final estructurada a Cloud Firestore
+      // Obtención segura de campos
+      const nombreVal = document.getElementById("nombre")?.value.trim() || "";
+      const tipoDocVal = document.getElementById("tipo-documento")?.value || "";
+      const docVal = document.getElementById("documento")?.value.trim() || "";
+      const tipoPersVal = document.getElementById("tipo-persona")?.value || "";
+      const correoVal = document.getElementById("correo")?.value.trim() || "";
+      const direccionVal = document.getElementById("direccion")?.value.trim() || "No aplica";
+      const direccionHechoVal = document.getElementById("direccion-hecho")?.value.trim() || "No aplica";
+      const tipoVal = document.getElementById("tipo")?.value || "";
+      const descVal = document.getElementById("descripcion")?.value.trim() || "";
+
+      // Consolidación final en Firestore Database
       await addDoc(collection(db, "pqrsf"), {
-        nombre: document.getElementById("nombre").value.trim(),
-        tipoDocumento: document.getElementById("tipo-documento").value, 
-        documento: document.getElementById("documento").value.trim(),
-        tipoPersona: document.getElementById("tipo-persona").value, 
-        correo: document.getElementById("correo").value.trim(),
-        direccion: document.getElementById("direccion").value.trim() || "No aplica",
-        direccionHecho: document.getElementById("direccion-hecho").value.trim() || "No aplica", 
-        tipo: document.getElementById("tipo").value, 
-        descripcion: document.getElementById("descripcion").value.trim(),
+        nombre: nombreVal,
+        tipoDocumento: tipoDocVal, 
+        documento: docVal,
+        tipoPersona: tipoPersVal, 
+        correo: correoVal,
+        direccion: direccionVal,
+        direccionHecho: direccionHechoVal, 
+        tipo: tipoVal, 
+        descripcion: descVal,
         estado: "Pendiente",
         fecha: new Date().toISOString(),
         evidencias: evidenciasUrls
@@ -171,14 +174,13 @@ if (pqrsForm) {
 
       alert("¡Su PQRSF ha sido enviada con éxito a la JAC!");
       
-      // Reseteo absoluto de la app
       pqrsForm.reset();
       listaArchivosTemporales = [];
       actualizarVistaPrevia();
 
     } catch (error) {
       console.error("Error crítico al procesar la PQRSF:", error);
-      alert("Hubo un error al enviar la solicitud. Por favor intente de nuevo.");
+      alert(`No se pudo enviar la solicitud: ${error.message}`);
     } finally {
       submitBtn.disabled = false;
       submitBtn.textContent = textoOriginal;
