@@ -133,3 +133,33 @@
     font-size: 14px !important;    
   }
 }
+
+
+
+/* ==========================================
+   BOTÓN DE AYUDAS SIEMPRE DESTACADO (AMARILLO)
+   ========================================== */
+.nav-links a.btn-ayudas-destacado {
+  color: #0a2558 !important;       
+  background-color: #f4c430;       
+  padding: 6px 16px;             
+  border-radius: 20px;             
+  font-weight: 700 !important;     
+  box-shadow: 0 2px 8px rgba(244, 196, 48, 0.3); 
+  display: inline-block;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+/* Efecto sutil al pasar el mouse por encima */
+.nav-links a.btn-ayudas-destacado:hover {
+  background-color: #e0b028 !important; 
+  transform: scale(1.03);
+}
+
+/* Adaptación para que no rompa el diseño en celulares */
+@media (max-width: 768px) {
+  .nav-links a.btn-ayudas-destacado {
+    padding: 4px 12px;
+    font-size: 14px !important;
+  }
+}
