@@ -9,7 +9,7 @@ const inputFile = document.getElementById("evidencias");
 const fileListContainer = document.getElementById("file-list");
 const submitBtn = document.getElementById("submit-btn");
 
-const IMGBB_API_KEY = "441f8fc90f3299af7e692ee2ecd79e24";
+const IMGBB_API_KEY = "7ca695ddde491f82c8ce1d020d47feb1";
 
 if (inputFile) {
   inputFile.addEventListener("change", () => {
