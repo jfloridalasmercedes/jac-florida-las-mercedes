@@ -61,15 +61,18 @@ function actualizarVistaPrevia() {
     if (archivo.name.toLowerCase().endsWith(".doc") || archivo.name.toLowerCase().endsWith(".docx")) icono = "📘";
 
     const item = document.createElement("div");
-    item.style.cssText = "background: #f8f9fa; border: 1px solid #dee2e6; padding: 10px 14px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between; font-size: 0.85rem; margin-bottom: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); width: 100%; box-sizing: border-box;";
     
+    // Ajuste de padding y flex layout para asegurar espacio del botón de cierre
+    item.style.cssText = "background: #f8f9fa; border: 1px solid #dee2e6; padding: 8px 10px; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; margin-bottom: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden;";
+    
+    // Bajamos el max-width del contenedor de texto al 60% para blindar el espacio de la 'X' en celulares pequeños
     item.innerHTML = `
-      <div style="display: flex; align-items: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 80%;">
-        <span style="margin-right: 10px; font-size: 1.2rem; flex-shrink: 0;">${icono}</span>
+      <div style="display: flex; align-items: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 65%; flex-grow: 1;">
+        <span style="margin-right: 6px; font-size: 1rem; flex-shrink: 0;">${icono}</span>
         <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; color: #333;" title="${archivo.name}">${archivo.name}</span>
-        <span style="color: #6c757d; margin-left: 8px; font-size: 0.75rem; flex-shrink: 0;">(${(archivo.size / 1024).toFixed(1)} KB)</span>
+        <span style="color: #6c757d; margin-left: 4px; font-size: 0.7rem; flex-shrink: 0;">(${(archivo.size / 1024).toFixed(1)} KB)</span>
       </div>
-      <button type="button" class="btn-borrar-evidencia" data-index="${indice}" style="background: #dc3545; border: none; color: white; font-weight: bold; cursor: pointer; padding: 6px 12px; font-size: 0.85rem; border-radius: 4px; line-height: 1; display: flex; align-items: center; justify-content: center; min-width: 30px; height: 28px;">
+      <button type="button" class="btn-borrar-evidencia" data-index="${indice}" style="background: #dc3545; border: none; color: white; font-weight: bold; cursor: pointer; padding: 4px 8px; font-size: 0.75rem; border-radius: 4px; line-height: 1; display: flex; align-items: center; justify-content: center; min-width: 24px; height: 24px; flex-shrink: 0; margin-left: 8px;">
         ✕
       </button>
     `;
@@ -89,7 +92,7 @@ if (contenedorVistaPrevia) {
   });
 }
 
-// 🛠️ FUNCIÓN AUXILIAR PARA CONVERTIR DOCUMENTOS A BASE64 (Mete el archivo en Firestore gratis)
+// 🛠️ FUNCIÓN AUXILIAR PARA CONVERTIR DOCUMENTOS A BASE64
 const transformarABase64 = (archivo) => new Promise((resolve, reject) => {
   const lector = new FileReader();
   lector.readAsDataURL(archivo);
@@ -113,7 +116,6 @@ if (pqrsForm) {
 
       for (const archivo of listaArchivosTemporales) {
         if (archivo.type.startsWith("image/")) {
-          // Si es foto, va para ImgBB de una
           const formData = new FormData();
           formData.append("image", archivo);
 
@@ -135,12 +137,11 @@ if (pqrsForm) {
             });
           }
         } else {
-          // Si es PDF o Word, se convierte a texto Base64 y se guarda directo en Firestore sin pagar nada
           const stringBase64 = await transformarABase64(archivo);
           evidenciasUrls.push({
             nombre: archivo.name,
             tipo: "documento_base64",
-            url: stringBase64 // El texto largo que representa tu PDF
+            url: stringBase64
           });
         }
       }

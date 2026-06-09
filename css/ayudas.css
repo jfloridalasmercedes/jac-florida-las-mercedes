@@ -115,41 +115,14 @@
 }
 
 /* =======================
-   RESPONSIVE
-======================= */
-
-@media (max-width: 992px) {
-  .help-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 768px) {
-  .help-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .help-card span {
-    font-size: 26px;
-  }
-
-  .pqrs-grid {
-  grid-template-columns: 1fr !important; 
-  gap: 16px;
-  }
-
-  .pqrs-form {
-  padding: 20px;
-  }
-}
-
-/* =======================
    PQRSF
 ======================= */
 
 .pqrs-section {
   padding: 70px 0;
   background: #f8f9fb;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .section-title {
@@ -183,19 +156,25 @@
   grid-template-columns: repeat(2, 1fr);
 
   gap: 24px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
 }
 
+/* 🛠️ ARREGLADO: Evita que el título largo de evidencias empuje la pantalla en móviles */
 .form-group label {
   margin-bottom: 8px;
-
   font-weight: 600;
-
   color: #333;
+  width: 100%;
+  word-wrap: break-word;
+  white-space: normal;
 }
 
 .form-group input,
@@ -267,4 +246,43 @@
 
 .submit-btn:hover {
   transform: translateY(-2px);
+}
+
+/* =======================
+   RESPONSIVE (Modificado para iPhone XR y similares)
+======================= */
+
+@media (max-width: 992px) {
+  .help-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .help-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .help-card span {
+    font-size: 26px;
+  }
+
+  .pqrs-grid {
+    grid-template-columns: 1fr !important; 
+    gap: 16px;
+    width: 100% !important;
+  }
+
+  .pqrs-form {
+    padding: 16px !important; /* Más compacto para que quepa en pantallas angostas */
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* 🛠️ ARREGLADO: Fuerza a que los grupos de inputs no generen barras de scroll horizontal */
+  .form-group {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden;
+  }
 }
