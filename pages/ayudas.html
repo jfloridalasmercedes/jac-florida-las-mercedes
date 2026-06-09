@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Ayudas y Servicios | JAC Florida Las Mercedes</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/navbar.css" />
+    <link rel="stylesheet" href="../css/footer.css" />
+    <link rel="stylesheet" href="../css/ayudas.css" />
+    
+    <style>
+      .required-asterisk { color: #d72638; font-weight: bold; margin-left: 2px; }
+    </style>
+  </head>
+
+  <body>
+    <header class="header">
+      <nav class="navbar container">
+        <div class="logo-container">
+          <img
+            src="../assets/images/logo/logo.png"
+            alt="Logo Junta de Acción Comunal"
+            class="logo"
+          />
+        </div>
+
+        <ul class="nav-links">
+          <li><a href="../index.html">Inicio</a></li>
+          <li><a href="./nosotros.html">Nosotros</a></li>
+          <li><a href="./noticias.html">Noticias</a></li>
+          <li>
+            <a href="#" class="active-nav">
+              Ayudas
+            </a>
+          </li>          
+          <li><a href="./galeria.html">Galería</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section class="internal-hero">
+        <div class="container hero-internal-content">
+          <h1>Ayudas y PQRSF</h1>
+          <p>
+            Consulta contactos importantes para la comunidad y envía peticiones,
+            quejas, reclamos, sugerencias o felicitaciones a la Junta de Acción
+            Comunal Florida Las Mercedes.
+          </p>
+        </div>
+      </section>
+
+      <section class="help-section">
+        <div class="container">
+          <h2 class="section-title">
+            Líneas y contactos de interés
+          </h2>
+
+          <div class="help-grid">
+            <article class="help-card">
+              <h3>🚓 Policía</h3>
+              <p>Línea de atención inmediata.</p>
+              <span>123</span>
+            </article>
+
+            <article class="help-card">
+              <h3>🚒 Bomberos</h3>
+              <p>Atención de emergencias.</p>
+              <span>119</span>
+            </article>
+
+            <article class="help-card">
+              <h3>🚑 Ambulancia</h3>
+              <p>Atención médica urgente.</p>
+              <span>123</span>
+            </article>
+
+            <article class="help-card">
+              <h3>🏥 Hospital</h3>
+              <p>Centro de atención cercano.</p>
+              <span>(604) XXX XXXX</span>
+            </article>
+
+            <article class="help-card">
+              <h3>🏛 Espacio Público</h3>
+              <p>Reportes y solicitudes.</p>
+              <span>(604) XXX XXXX</span>
+            </article>
+
+            <article class="help-card">
+              <h3>🏢 JAC</h3>
+              <p>Atención comunitaria.</p>
+              <span>300 XXX XXXX</span>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="pqrs-section">
+        <div class="container">
+          <h2 class="section-title">
+            Formulario PQRSF
+          </h2>
+
+          <form class="pqrs-form" id="pqrs-form">
+            <div class="pqrs-grid">
+
+              <div class="form-group">
+                <label>Tipo de solicitud<span class="required-asterisk">*</span></label>
+                <select id="tipo" required>
+                  <option value="" disabled selected>Seleccione una opción...</option>
+                  <option value="Petición">Petición</option>
+                  <option value="Queja">Queja</option>
+                  <option value="Reclamo">Reclamo</option>
+                  <option value="Sugerencia">Sugerencia</option>
+                  <option value="Felicitación">Felicitación</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Nombre completo<span class="required-asterisk">*</span></label>
+                <input type="text" id="nombre" pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$" title="Solo se permiten letras y espacios" placeholder="Ej: Juan Pérez" required>
+              </div>
+
+              <div class="form-group">
+                <label>Tipo de documento<span class="required-asterisk">*</span></label>
+                <select id="tipo-documento" required>
+                  <option value="" disabled selected>Seleccione tipo...</option>
+                  <option value="Cédula de ciudadanía">Cédula de ciudadanía</option>
+                  <option value="Tarjeta de identidad">Tarjeta de identidad</option>
+                  <option value="Cédula de extranjería">Cédula de extranjería</option>
+                  <option value="NIT">NIT</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Número de documento<span class="required-asterisk">*</span></label>
+                <input type="text" id="documento" pattern="^[0-9kK\-.\s]+$" title="Introduzca un número de documento válido" placeholder="Ej: 102345678" required>
+              </div>
+
+              <div class="form-group">
+                <label>Persona<span class="required-asterisk">*</span></label>
+                <select id="tipo-persona" required>
+                  <option value="Natural">Natural</option>
+                  <option value="Jurídica">Jurídica</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Dirección de residencia (Opcional)</label>
+                <input type="text" id="direccion" placeholder="Ej: Calle 50 #10-20">
+              </div>
+
+              <div class="form-group">
+                <label>Dirección del hecho (Opcional)</label>
+                <input type="text" id="direccion-hecho" placeholder="Ej: Parque principal">
+              </div>
+
+              <div class="form-group">
+                <label>Correo electrónico<span class="required-asterisk">*</span></label>
+                <input type="email" id="correo" placeholder="ejemplo@correo.com" required>
+              </div>
+
+              <div class="form-group">
+                <label>Descripción de los hechos<span class="required-asterisk">*</span></label>
+                <textarea rows="6" id="descripcion" minlength="20" placeholder="Escribe de manera clara y detallada los motivos de tu solicitud (mínimo 20 caracteres)..." required></textarea>
+              </div>
+
+              <div class="form-group">
+                <label>Evidencias (Máximo 3 archivos: Imágenes, PDF o Word)</label>
+                <input
+                  type="file"
+                  id="evidencias"
+                  accept="image/*,.pdf,.doc,.docx"
+                  multiple
+                >
+                <div id="file-list" style="margin-top: 8px; font-size: 0.85rem; color: #555;"></div>
+              </div>
+
+            </div>
+
+            <button type="submit" class="submit-btn" id="submit-btn">
+              Enviar solicitud
+            </button>
+          </form>
+        </div>
+      </section>
+    </main>
+ 
+    <footer class="footer">
+      <div class="container footer-container">
+        <div class="footer-info">
+          <h3>Información</h3>
+          <p>📍 Dirección: Medellín, Antioquia</p>
+          <p>✉ Correo: contacto@jac.com</p>
+          <p>🕒 Horario: Lunes a viernes</p>
+        </div>
+
+        <div class="footer-brand">
+          <img
+            src="../assets/images/logo/logo.png"
+            alt="Logo JAC"
+            class="footer-logo"
+          />
+          <p>Junta de Acción Comunal Florida Las Mercedes</p>
+        </div>
+
+        <div class="footer-info">
+          <h3>Contacto</h3>
+          <p>📞 Teléfono: (604) XXX XXXX</p>
+          <p>💬 WhatsApp: 300 XXX XXXX</p>
+        </div>
+      </div>
+
+       <div class="footer-bottom">
+        <p>© 2026 Junta de Acción Comunal Florida Las Mercedes</p>
+        <p><a href="../pages/admin/login.html" style="color: rgba(255,255,255,0.4); text-decoration: none; font-size: 0.8rem;">Control de Gestión</a></p>
+       </div>
+    </footer>
+
+    <script type="module" src="../js/pqrs.js"></script>
+  </body>
+</html>

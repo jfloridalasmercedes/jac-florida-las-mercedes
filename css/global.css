@@ -1,0 +1,102 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* VARIABLES */
+:root {
+  --primary-blue: #0a2558;
+  --secondary-blue: #5db3e6;
+  --community-green: #78c257;
+  --light-green: #e8f4e2;
+  --accent-yellow: #efcb2f;
+  --background-color: #f7f8fa;
+  --text-color: #1f2937;
+  --white: #ffffff;
+
+  --border-radius: 12px;
+}
+
+/* GLOBAL */
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+section {
+  padding: 60px 0;
+}
+
+h1 {
+  font-size: 48px;
+}
+
+h2 {
+  font-size: 36px;
+}
+
+p {
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  border-radius: var(--border-radius);
+}
+
+
+/* =======================
+   RESPONSIVE TABLET
+======================= */
+
+@media (max-width: 992px) {
+  h1 {
+    font-size: 42px;
+  }
+
+  h2 {
+    font-size: 32px;
+  }
+
+  .container {
+    width: 92%;
+  }
+}
+
+/* =======================
+   RESPONSIVE MOBILE
+======================= */
+
+@media (max-width: 768px) {
+  section {
+    padding: 45px 0;
+  }
+
+  h1 {
+    font-size: 34px;
+  }
+
+  h2 {
+    font-size: 28px;
+  }
+
+  p {
+    font-size: 17px;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}

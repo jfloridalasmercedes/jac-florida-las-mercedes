@@ -1,0 +1,275 @@
+/* ==========================================
+   HERO (Cabecera de la página)
+   ========================================== */
+.internal-hero {
+  background: linear-gradient(
+    135deg,
+    var(--primary-blue),
+    var(--community-green)
+  );
+  color: white;
+  padding: 90px 0 70px;
+  text-align: center;
+}
+
+.hero-internal-content {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+/* ==========================================
+   FEATURED (Carrusel dinámico)
+   ========================================== */
+.featured-gallery {
+  padding: 60px 0 35px;
+}
+
+.featured-gallery h2 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.slider-wrapper {
+  position: relative;
+}
+
+.featured-slider {
+  display: flex;
+  gap: 22px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding-bottom: 15px;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge viejo */
+}
+
+.featured-slider::-webkit-scrollbar {
+  display: none; /* Chrome, Safari y Opera */
+}
+
+.featured-slider img {
+  width: 520px;
+  height: 320px;
+  flex-shrink: 0;
+  object-fit: cover;
+  border-radius: 18px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.1);
+  transition: transform 0.25s ease;
+}
+
+.featured-slider img:hover {
+  transform: scale(1.02);
+}
+
+/* ==========================================
+   SLIDER BUTTONS (Botones del Carrusel)
+   ========================================== */
+.slider-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  font-size: 22px;
+  font-weight: 700;
+  z-index: 10;
+  transition: 0.25s;
+}
+
+.slider-btn:hover {
+  transform: translateY(-50%) scale(1.08);
+  background: white;
+}
+
+.prev { left: -18px; }
+.next { right: -18px; }
+
+/* ==========================================
+   GRID (Grilla dinámica conectada a Firestore)
+   ========================================== */
+.gallery-section {
+  padding: 20px 0 70px;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+/* ==========================================
+   CARD (Tarjetas individuales de la grilla)
+   ========================================== */
+.gallery-card {
+  background: white;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.gallery-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.gallery-card img {
+  width: 100%;
+  height: 230px;
+  object-fit: cover;
+}
+
+.gallery-card-content {
+  padding: 22px;
+}
+
+.gallery-card-content h3 {
+  margin: 0 0 12px 0;
+  font-size: 1.3rem;
+  color: #1a1a1a;
+}
+
+.gallery-card-content p {
+  margin: 0 0 18px 0;
+  color: #666;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.gallery-card-content span {
+  color: var(--community-green);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+/* ==========================================
+   LIGHTBOX CORREGIDO (Imagen Completa / Zoom)
+   ========================================== */
+.lightbox {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(0, 0, 0, 0.95) !important; /* Fondo oscuro */
+  display: none; /* Controlado por JS */
+  justify-content: center !important;
+  align-items: center !important;
+  flex-direction: column !important;
+  z-index: 999999 !important; /* Por encima de todo el DOM */
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+/* Clase inyectada activada por JS */
+.lightbox.active {
+  display: flex !important;
+}
+
+.lightbox img {
+  width: 75% !important; /* Forzamos a ocupar las tres cuartas partes del ancho de pantalla */
+  max-width: 1000px !important; /* Evita que en pantallas gigantes se rompa la resolución */
+  height: auto !important; /* Mantiene la proporción correcta y evita deformaciones */
+  max-height: 75vh !important; /* No permite que tape el texto inferior */
+  border-radius: 14px;
+  box-shadow: 0 12px 60px rgba(0, 0, 0, 0.85);
+  object-fit: contain !important;
+  display: block;
+  margin: 0 auto;
+}
+
+.lightbox p {
+  color: #ffffff !important;
+  margin-top: 25px !important;
+  font-size: 1.6rem !important; /* Un poco más grande para destacar el título */
+  font-weight: 600 !important;
+  text-align: center !important;
+  max-width: 75% !important;
+  font-family: 'Poppins', sans-serif;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  letter-spacing: 0.5px;
+}
+
+.close-lightbox {
+  position: absolute !important;
+  top: 30px;
+  right: 40px;
+  color: rgba(255, 255, 255, 0.8) !important;
+  font-size: 4.5rem !important;
+  font-weight: 300 !important;
+  cursor: pointer !important;
+  line-height: 0.5 !important;
+  transition: color 0.2s, transform 0.2s;
+  user-select: none;
+}
+
+.close-lightbox:hover {
+  color: #ffffff !important;
+  transform: scale(1.15);
+}
+
+/* ==========================================
+   RESPONSIVE (Adaptación a Móviles y Tablets)
+   ========================================== */
+@media (max-width: 992px) {
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .featured-slider img {
+    width: 420px;
+    height: 270px;
+  }
+}
+
+@media (max-width: 768px) {
+  .gallery-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .featured-slider img {
+    width: 310px;
+    height: 210px;
+  }
+
+  .slider-btn {
+    width: 42px;
+    height: 42px;
+    font-size: 18px;
+  }
+
+  .prev { left: -8px; }
+  .next { right: -8px; }
+
+  .lightbox {
+    padding: 20px;
+  }
+
+  .lightbox img {
+    width: 90% !important; /* En móviles usa casi todo el ancho */
+    max-height: 60vh !important;
+  }
+
+  .lightbox p {
+    font-size: 1.25rem !important;
+  }
+
+  .close-lightbox {
+    top: 25px;
+    right: 25px;
+    font-size: 3.5rem !important;
+  }
+}
+
+/* Clases utilitarias */
+.hidden-card {
+  display: none !important;
+}

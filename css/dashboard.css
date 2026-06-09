@@ -1,0 +1,48 @@
+/* ==========================================
+   ESTILOS NUEVOS PARA LAS CARTAS PQRSF 
+   ========================================== */
+.dashboard-section {
+  margin-top: 50px;
+}
+
+.pqrs-card {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, .08);
+  border-left: 5px solid #0056b3; /* Línea decorativa para que parezca de sistema real */
+}
+
+.pqrs-card h3 {
+  color: #0056b3; /* Reemplaza por tu color principal si usas variables */
+  margin-bottom: 12px;
+  font-size: 1.3rem;
+  text-transform: uppercase;
+}
+
+.pqrs-card p {
+  margin: 6px 0;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.pqrs-card strong {
+  color: #555;
+}
+
+.pqrs-card button {
+  background: #d72638;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 15px;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.pqrs-card button:hover {
+  background: #b61c2c;
+}

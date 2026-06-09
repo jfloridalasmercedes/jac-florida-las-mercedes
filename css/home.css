@@ -1,0 +1,453 @@
+.hero {
+  min-height: 85vh;
+
+  display: flex;
+  align-items: center;
+
+  background:
+    linear-gradient(
+      rgba(10, 37, 88, 0.75),
+      rgba(10, 37, 88, 0.75)
+    ),
+    url("../assets/images/hero/community.png");
+
+  background-size: cover;
+  background-position: center;
+
+  color: white;
+}
+
+.hero-content {
+  max-width: 850px;
+
+  margin: 0 auto;
+
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 56px;
+  line-height: 1.2;
+  margin-bottom: 24px;
+}
+
+.hero p {
+  font-size: 22px;
+  margin-bottom: 18px;
+}
+
+.hero-guide {
+  font-weight: 600;
+}
+
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+
+  margin-top: 35px;
+
+  flex-wrap: wrap;
+}
+
+.hero-buttons button {
+  padding: 18px 30px;
+  font-size: 18px;
+  font-weight: 600;
+
+  transition: all 0.3s ease;
+}
+
+.hero-buttons button:first-child {
+  background-color: var(--accent-yellow);
+  color: var(--primary-blue);
+}
+
+.hero-buttons button:nth-child(2) {
+  background-color: var(--community-green);
+  color: white;
+}
+
+.hero-buttons button:nth-child(3) {
+  background-color: white;
+  color: var(--primary-blue);
+}
+
+.hero-buttons button:hover {
+  transform: translateY(-3px);
+}
+
+/* =======================
+   NEWS SECTION
+======================= */
+
+.section-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.section-header h2 {
+  margin-bottom: 15px;
+}
+
+.section-header p {
+  color: #6b7280;
+}
+
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.news-card {
+  background: white;
+  border-radius: var(--border-radius);
+
+  overflow: hidden;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+
+  transition: transform 0.3s ease;
+}
+
+.news-card:hover {
+  transform: translateY(-8px);
+}
+
+.news-card img {
+  width: 100%;
+  height: 230px;
+  object-fit: cover;
+}
+
+.news-content {
+  padding: 24px;
+}
+
+.news-date {
+  color: var(--community-green);
+  font-weight: 600;
+}
+
+.news-content h3 {
+  margin: 15px 0;
+  font-size: 24px;
+}
+
+.news-content p {
+  margin-bottom: 20px;
+}
+
+.news-content button {
+  background-color: var(--primary-blue);
+  color: white;
+
+  padding: 14px 22px;
+
+  font-size: 16px;
+}
+
+.section-button {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+}
+
+.section-button button {
+  background-color: var(--community-green);
+  color: white;
+
+  padding: 18px 28px;
+
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* =======================
+   EVENTS SECTION
+======================= 
+
+.events-section {
+  background-color: var(--white);
+}
+
+.events-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.event-card {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+
+  background: white;
+
+  padding: 28px;
+
+  border-radius: var(--border-radius);
+
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+
+  transition: transform 0.3s ease;
+}
+
+.event-card:hover {
+  transform: translateY(-4px);
+}
+
+.event-date-box {
+  min-width: 110px;
+
+  background: var(--primary-blue);
+  color: white;
+
+  border-radius: var(--border-radius);
+
+  padding: 18px;
+
+  text-align: center;
+}
+
+.day {
+  display: block;
+  font-size: 40px;
+  font-weight: 700;
+}
+
+.month {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.event-info h3 {
+  margin-bottom: 12px;
+  font-size: 26px;
+}
+
+.event-info p {
+  margin-bottom: 12px;
+}
+
+.event-location {
+  font-weight: 600;
+  color: var(--community-green);
+}
+*/
+/* =======================
+   ABOUT SECTION
+======================= 
+
+.about-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+}
+
+.about-text {
+  flex: 1;
+}
+
+.section-tag {
+  display: inline-block;
+
+  background-color: var(--light-green);
+  color: var(--community-green);
+
+  padding: 10px 18px;
+  border-radius: 999px;
+
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+.about-text h2 {
+  margin-bottom: 25px;
+}
+
+.about-text p {
+  margin-bottom: 22px;
+}
+
+.about-text button {
+  background-color: var(--primary-blue);
+  color: white;
+
+  padding: 16px 26px;
+
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.about-image {
+  flex: 1;
+}
+
+.about-image img {
+  width: 100%;
+  height: 420px;
+
+  object-fit: cover;
+
+  border-radius: 24px;
+
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+*/
+/* =======================
+   GALLERY SECTION
+======================= 
+
+.gallery-section {
+  background-color: var(--white);
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr 0.75fr;
+  grid-template-rows: repeat(2, 190px);
+  gap: 20px;
+}
+
+.gallery-item {
+  overflow: hidden;
+  border-radius: 16px;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.gallery-item.large {
+  grid-row: span 2;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  transition: transform 0.4s ease;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.06);
+}
+*/
+/* =======================
+   CONTACTS SECTION
+======================= 
+
+.contacts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.contact-card {
+  background: white;
+
+  padding: 28px 20px;
+
+  border-radius: 16px;
+
+  text-align: center;
+
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+
+  transition: transform 0.3s ease;
+}
+
+.contact-card:hover {
+  transform: translateY(-6px);
+}
+
+.contact-icon {
+  font-size: 42px;
+  margin-bottom: 18px;
+}
+
+.contact-card h3 {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.contact-card p {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.contact-card.emergency {
+  border: 3px solid var(--accent-yellow);
+}
+*/
+/* =======================
+   RESPONSIVE HOME
+======================= */
+
+@media (max-width: 992px) {
+  .news-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .contacts-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .about-wrapper {
+    flex-direction: column;
+  }
+
+  .gallery-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+
+  .gallery-item.large {
+    grid-row: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    min-height: 70vh;
+  }
+
+  .hero h1 {
+    font-size: 34px;
+  }
+
+  .hero p {
+    font-size: 18px;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-buttons button {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .news-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contacts-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .event-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .event-date-box {
+    width: 100%;
+    max-width: 120px;
+  }
+}

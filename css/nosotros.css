@@ -1,0 +1,291 @@
+/* =======================
+   HERO INTERNO
+======================= */
+
+.internal-hero {
+  background: linear-gradient(
+    135deg,
+    var(--primary-blue),
+    var(--community-green)
+  );
+
+  color: white;
+
+  padding: 90px 0 70px;
+
+  text-align: center;
+}
+
+.hero-internal-content {
+  max-width: 760px;
+}
+
+.internal-hero h1 {
+  margin-bottom: 18px;
+}
+
+/* =======================
+   QUICK NAV
+======================= */
+
+.quick-nav-section {
+  background: rgba(255, 255, 255, 0.96);
+
+  position:static;
+  top: 70px;
+
+  z-index: 50;
+
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+  backdrop-filter: blur(8px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 54px;
+}
+
+.quick-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 10px;
+
+  padding: 0;
+  margin: 0;
+}
+
+.quick-nav a {
+  text-decoration: none;
+
+  background: #f2f4f7;
+
+  color: var(--primary-blue);
+
+  padding: 8px 14px;
+
+  border-radius: 999px;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  transition: 0.25s;
+}
+
+.quick-nav a:hover {
+  background: var(--primary-blue);
+  color: white;
+}
+
+/* =======================
+   CONTENT
+======================= */
+
+.narrow {
+  max-width: 850px;
+}
+
+.content-section {
+  text-align: center;
+
+  scroll-margin-top: 110px;
+}
+
+.content-section h2 {
+  margin-bottom: 28px;
+}
+
+.content-section p {
+  margin-bottom: 18px;
+}
+
+.alt-section {
+  background: #f8f9fb;
+}
+
+/* =======================
+   PERIODO
+======================= */
+
+.period-card {
+  background: white;
+
+  max-width: 450px;
+
+  margin: auto;
+
+  padding: 35px;
+
+  border-radius: 16px;
+
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.period-card h3 {
+  font-size: 36px;
+}
+
+/* =======================
+   INTEGRANTES
+======================= */
+
+.members-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 28px;
+
+  margin-top: 35px;
+}
+
+.member-card {
+  background: white;
+
+  border-radius: 18px;
+
+  overflow: hidden;
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+
+  padding-bottom: 25px;
+}
+
+.member-card img {
+  width: 100%;
+  height: 280px;
+
+  object-fit: cover;
+}
+
+.member-card h3 {
+  margin-top: 20px;
+}
+
+.member-card span {
+  display: block;
+
+  color: var(--community-green);
+
+  font-weight: 600;
+
+  margin: 8px 0 10px;
+}
+
+/* =======================
+   COMISIONES
+======================= */
+
+.commissions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 24px;
+
+  margin-top: 35px;
+}
+
+.commission-card {
+  background: white;
+
+  padding: 30px;
+
+  border-radius: 16px;
+
+  font-weight: 600;
+
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* =======================
+   RESPONSIVE
+======================= */
+
+@media (max-width: 992px) {
+  .members-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .members-grid,
+  .commissions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .quick-nav {
+    gap: 12px;
+  }
+
+  .quick-nav a {
+    font-size: 15px;
+    padding: 10px 16px;
+  }
+
+  .period-card h3 {
+    font-size: 30px;
+  }
+
+  .map-container {
+    padding: 0;
+  }
+}
+
+/* =======================
+   ORGANIGRAMA
+======================= */
+
+.organigrama-text {
+  margin-bottom: 28px;
+}
+
+.organigrama-card {
+  max-width: 720px;
+
+  margin: auto;
+
+  background: white;
+
+  padding: 16px;
+
+  border-radius: 18px;
+
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+}
+
+.organigrama-card img {
+  width: 100%;
+
+  max-height: 420px;
+  object-fit: contain;
+
+  border-radius: 12px;
+}
+
+/* =======================
+   MAPA
+======================= */
+
+.map-container {
+  width: 100%;
+
+  max-width: 1000px;
+
+  margin: 30px auto 0;
+
+  padding: 0 20px;
+}
+
+.map-container img {
+  width: 100%;
+
+  height: auto;
+
+  display: block;
+
+  border-radius: 18px;
+}

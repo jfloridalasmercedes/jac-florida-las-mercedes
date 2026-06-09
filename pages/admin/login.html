@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administrador | JAC Florida Las Mercedes</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0d6efd 0%, #0a46a6 100%);
+      min-height: 100vh;
+    }
+    .login-card {
+      border: none;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+  </style>
+</head>
+
+<body class="d-flex align-items-center justify-content-center">
+
+  <div class="container" style="max-width: 420px;">
+    <div class="card login-card p-4 p-sm-5 bg-white">
+      
+      <div class="text-center mb-4">
+        <h1 class="h3 fw-bold text-dark m-0">Panel Administrativo</h1>
+        <p class="text-muted small">JAC Florida Las Mercedes</p>
+      </div>
+
+      <div id="errorAlert" class="alert alert-danger d-none py-2 px-3 small" role="alert">
+        Correo o contraseña incorrectos
+      </div>
+
+      <form id="loginForm">
+        
+        <div class="form-group mb-3">
+          <label for="email" class="form-label text-secondary small fw-medium">Correo electrónico</label>
+          <input 
+            type="email" 
+            id="email" 
+            class="form-control form-control-lg fs-6" 
+            placeholder="nombre@correo.com" 
+            required
+            autocomplete="email"
+          >
+        </div>
+
+        <div class="form-group mb-4">
+          <label for="password" class="form-label text-secondary small fw-medium">Contraseña</label>
+          <input 
+            type="password" 
+            id="password" 
+            class="form-control form-control-lg fs-6" 
+            placeholder="••••••••" 
+            required
+            autocomplete="current-password"
+          >
+        </div>
+
+        <button type="submit" id="loginBtn" class="btn btn-primary btn-lg w-100 fs-6 fw-medium py-2 mb-3">
+          Ingresar al panel
+        </button>
+
+        <a href="../../index.html" class="btn btn-outline-secondary w-100 fs-6 py-2">
+          ← Volver al sitio web
+        </a>
+
+      </form>
+
+    </div>
+  </div>
+
+  <script type="module" src="../../js/admin/login.js"></script>
+
+</body>
+</html>
