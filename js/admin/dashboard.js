@@ -91,11 +91,13 @@ async function cargarNoticias() {
   querySnapshot.forEach((documento) => {
     const noticia = documento.data();
     newsList.innerHTML += `
-      <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 15px; border-radius: 10px; background: #fff;">
-        <h3>${noticia.titulo}</h3>
-        <button onclick="eliminarNoticia('${documento.id}')" style="background: #d72638; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">
-          Eliminar
-        </button>
+      <div class="col-md-4">
+        <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 15px; border-radius: 10px; background: #fff;">
+          <h3>${noticia.titulo}</h3>
+          <button onclick="eliminarNoticia('${documento.id}')" style="background: #d72638; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">
+            Eliminar
+          </button>
+        </div>
       </div>
     `;
   });
@@ -151,36 +153,49 @@ async function cargarGaleria() {
   snapshot.forEach((docu) => {
     const data = docu.data();
     listaGaleria.innerHTML += `
-      <div style="border: 1px solid #ccc; padding: 10px; border-radius: 10px; text-align: center; width: 170px; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-        <img src="${data.imagen}" style="width: 150px; height: 110px; object-fit: cover; border-radius: 5px;" onerror="this.src='https://placehold.co/150x110?text=Error+URL'">
-        <p style="margin: 8px 0 2px 0; font-weight: 600; font-size: 0.9rem; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">${data.titulo}</p>
-        <p style="margin: 0 0 8px 0; font-size: 0.75rem; color: #666; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;" title="${data.descripcion || ''}">${data.descripcion || 'Sin descripción'}</p>
-        <button onclick="eliminarGaleria('${docu.id}')" style="background: #d72638; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.8rem;">
-          Eliminar
-        </button>
+      <div class="col-auto mb-3">
+        <div style="border: 1px solid #ccc; padding: 10px; border-radius: 10px; text-align: center; width: 170px; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+          <img src="${data.imagen}" style="width: 150px; height: 110px; object-fit: cover; border-radius: 5px;" onerror="this.src='https://placehold.co/150x110?text=Error+URL'">
+          <p style="margin: 8px 0 2px 0; font-weight: 600; font-size: 0.9rem; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">${data.titulo}</p>
+          <p style="margin: 0 0 8px 0; font-size: 0.75rem; color: #666; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;" title="${data.descripcion || ''}">${data.descripcion || 'Sin descripción'}</p>
+          <button onclick="eliminarGaleria('${docu.id}')" style="background: #d72638; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.8rem;">
+            Eliminar
+          </button>
+        </div>
       </div>
     `;
   });
 }
 
+// CORRECCIÓN CRÍTICA: Añadido window. para que el botón HTML la encuentre
+window.eliminarGaleria = async (id) => {
+  const confirmar = confirm("¿Seguro que deseas eliminar esta foto de la galería?");
+  if (!confirmar) return;
+
+  try {
+    await deleteDoc(doc(db, "galeria", id));
+    alert("Imagen eliminada correctamente");
+    cargarGaleria();
+  } catch (error) {
+    console.error("Error al eliminar la imagen:", error);
+    alert("No se pudo eliminar la imagen de la base de datos.");
+  }
+};
+
 // ==========================================
-// 6. SECCIÓN: PQRSF (ACTUALIZADA CON FECHA Y HORA)
+// 6. SECCIÓN: PQRSF 
 // ==========================================
 async function cargarPQRS() {
   const lista = document.getElementById("lista-pqrs");
   if (!lista) return;
 
   lista.innerHTML = "";
-  
-  // Modificado: Trae las PQRSF ordenadas por fecha si existe el índice
   const snapshot = await getDocs(collection(db, "pqrsf"));
 
   snapshot.forEach((item) => {
     const data = item.data();
     const id = item.id;
     const esResuelto = data.estado === "Resuelto";
-    
-    // !!! EXTRAE Y FORMATEA LA FECHA DE LA SOLICITUD !!!
     const fechaRecibido = formatearFechaAdmin(data.fecha);
 
     let bloqueEvidencias = "";

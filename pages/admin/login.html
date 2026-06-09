@@ -38,6 +38,10 @@
       <div id="errorAlert" class="alert alert-danger d-none py-2 px-3 small" role="alert">
         Correo o contraseña incorrectos
       </div>
+      
+      <div id="successAlert" class="alert alert-success d-none py-2 px-3 small" role="alert">
+        Correo de recuperación enviado con éxito.
+      </div>
 
       <form id="loginForm">
         
@@ -53,7 +57,7 @@
           >
         </div>
 
-        <div class="form-group mb-4">
+        <div class="form-group mb-2">
           <label for="password" class="form-label text-secondary small fw-medium">Contraseña</label>
           <input 
             type="password" 
@@ -63,6 +67,12 @@
             required
             autocomplete="current-password"
           >
+        </div>
+
+        <div class="text-end mb-4">
+          <button type="button" id="recuperarBtn" class="btn btn-link p-0 text-decoration-none small" style="font-size: 0.85rem;">
+            ¿Olvidaste la contraseña?
+          </button>
         </div>
 
         <button type="submit" id="loginBtn" class="btn btn-primary btn-lg w-100 fs-6 fw-medium py-2 mb-3">
