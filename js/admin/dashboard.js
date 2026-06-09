@@ -167,7 +167,6 @@ async function cargarGaleria() {
   });
 }
 
-// CORRECCIÓN CRÍTICA: Añadido window. para que el botón HTML la encuentre
 window.eliminarGaleria = async (id) => {
   const confirmar = confirm("¿Seguro que deseas eliminar esta foto de la galería?");
   if (!confirmar) return;
@@ -244,15 +243,16 @@ async function cargarPQRS() {
     const badgeColor = esResuelto ? "bg-success text-white" : "bg-warning text-dark";
     const borderCardColor = esResuelto ? "border-success" : "border-warning";
 
+    // CORRECCIÓN DE DISEÑO MÓVIL: Clases adaptativas para evitar que se peguen en teléfonos
     const botonResolver = !esResuelto 
-      ? `<button onclick="resolverPQRS('${id}')" class="btn btn-success btn-sm px-3 me-2">✔ Marcar como Resuelto</button>` 
+      ? `<button onclick="resolverPQRS('${id}')" class="btn btn-success btn-sm px-3 w-100 w-sm-auto mb-2 mb-sm-0 me-sm-2">✔ Marcar como Resuelto</button>` 
       : ``;
 
     lista.innerHTML += `
       <div class="col-12 mb-3">
         <div class="card shadow-sm border-start ${borderCardColor} border-3">
           <div class="card-body p-4">
-            <div class="d-flex justify-content-between align-items-start mb-3">
+            <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
               <div>
                 <span class="badge ${badgeColor} px-3 py-2 fw-semibold fs-6">${data.tipo || "Solicitud"}</span>
                 <span class="ms-2 text-muted small">Estado: <strong class="text-uppercase">${data.estado || "Pendiente"}</strong></span>
@@ -277,9 +277,9 @@ async function cargarPQRS() {
 
             ${bloqueEvidencias}
             
-            <div class="text-end mt-3 border-top pt-3">
+            <div class="text-end mt-3 border-top pt-3 d-flex flex-column flex-sm-row justify-content-sm-end">
               ${botonResolver}
-              <button onclick="eliminarPQRS('${item.id}')" class="btn btn-outline-danger btn-sm px-4">
+              <button onclick="eliminarPQRS('${item.id}')" class="btn btn-outline-danger btn-sm px-4 w-100 w-sm-auto">
                 Eliminar registro
               </button>
             </div>

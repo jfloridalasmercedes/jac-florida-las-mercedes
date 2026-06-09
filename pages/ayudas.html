@@ -178,14 +178,15 @@
               </div>
 
               <div class="form-group">
-                <label>Evidencias (Máximo 3 archivos: Imágenes, PDF o Word)</label>
+                <label>Evidencias de soporte (Fotos o Documentos PDF, Word)</label>
                 <input
-                  type="file"
-                  id="evidencias"
-                  accept="image/*,.pdf,.doc,.docx"
-                  multiple
+                 type="file"
+                 id="evidencias"
+                 accept="image/*,.pdf,.doc,.docx"
                 >
-                <div id="file-list" style="margin-top: 8px; font-size: 0.85rem; color: #555;"></div>
+                <div id="vistaPreviaArchivos" style="margin-top: 10px; display: flex; flex-direction: column; gap: 5px;">
+                  <p class="text-muted small m-0" style="color: #666; font-style: italic;">Ningún archivo seleccionado aún.</p>
+                </div>
               </div>
 
             </div>

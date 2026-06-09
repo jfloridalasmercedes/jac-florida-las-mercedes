@@ -113,8 +113,23 @@
 }
 
 
+/* ==========================================
+   PESTAÑA ACTIVA - DISEÑO DE PÍLDORA ACCESIBLE
+   ========================================== */
 .active-nav {
-  color: #efff5c !important;
+  color: #0a2558 !important;       
+  background-color: #ffffff;       
+  padding: 6px 14px;              
+  border-radius: 20px;            
+  font-weight: 700 !important;     
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); 
+  display: inline-block;          
+}
 
-  font-weight: 700;
+/* Ajuste sutil para celulares para que la cápsula no sature el menú compacto */
+@media (max-width: 768px) {
+  .active-nav {
+    padding: 4px 10px;             
+    font-size: 14px !important;    
+  }
 }
